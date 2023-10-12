@@ -3,29 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Usuario;
+use Illuminate\Support\Facades\Auth; // Importe a classe Auth
+use App\Models\User;
 
-class usuarioController extends Controller
+class UsuarioController extends Controller
 {
     public const REDIRECT_URL = 'http://localhost/crm_studiokm/?page=listarusuarios';
 
     public function index()
     {
-        return response()->json(Usuario::all(), 200, [], JSON_PRETTY_PRINT);
+        $users = User::all(); // Fetch users from the database
+    
+        return view('dashboard', ['users' => $users]); // Pass the users data to the view
     }
 
     public function gravarUsuario(Request $requisicao)
     {
         $validatedData = $requisicao->validate([
-            'nome' => 'required|string',
+            'name' => 'required|string',
             'email' => 'required|email',
-            'senha' => 'required',
+            'password' => 'required',
         ]);
 
-        // Encrypt the password using MD5 (as specified, though not recommended for production use)
-        $validatedData['senha'] = md5($validatedData['senha']);
-
-        Usuario::create($validatedData);
+        User::create($validatedData);
 
         return redirect(self::REDIRECT_URL);
     }
@@ -35,28 +35,25 @@ class usuarioController extends Controller
         // Valide os dados da requisição
         $validatedData = $requisicao->validate([
             'id' => 'required|integer',
-            'nome' => 'required|string',
+            'name' => 'required|string',
             'email' => 'required|email',
-            'senha' => 'required'
+            'password' => 'required'
         ]);
-
-        // Encrypt the password using MD5 (as specified, though not recommended for production use)
-        $validatedData['senha'] = md5($validatedData['senha']);
 
         $id = $validatedData['id'];
         unset($validatedData['id']); // Remova o ID dos dados validados para evitar que ele seja atualizado
 
-        // Verifique se o cliente com o ID fornecido existe
-        $usuario = Usuario::find($id);
+        // Verifique se o usuário com o ID fornecido existe
+        $usuario = User::find($id);
 
         if (!$usuario) {
-            return response()->json('Usuario não encontrado', 404);
+            return response()->json('Usuário não encontrado', 404);
         }
 
-        // Atualize os dados do usuario
+        // Atualize os dados do usuário
         $usuario->update($validatedData);
 
-        if ($validatedData){
+        if ($usuario) {
             return response()->json(['message' => 'Usuário Editado com sucesso'], 200);
         }
 
@@ -65,6 +62,20 @@ class usuarioController extends Controller
 
     public function show($id)
     {
-        return Usuario::findOrFail($id);
+        return User::findOrFail($id);
+    }
+
+    // Adicione a lógica de login
+    public function login(Request $requisicao)
+    {
+        $credentials = $requisicao->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Autenticação bem-sucedida
+            return redirect('/dashboard'); // Redireciona para a página de dashboard
+        } else {
+            // Autenticação falhou
+            return redirect('/login')->with('error', 'Email ou senha inválidos.');
+        }
     }
 }

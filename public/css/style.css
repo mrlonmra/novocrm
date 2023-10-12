@@ -121,6 +121,27 @@ b {
     grid-template-columns: 12rem auto 23rem;
 }
 
+.centered {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Centralizar o conteúdo horizontalmente */
+    margin-left: 630px;
+    margin-top: 165px;
+}
+
+/* Estilos para dispositivos móveis (tamanhos de tela menores) */
+@media screen and (max-width: 768px) {
+    .centered {
+        display: flex;
+        width: 100%;
+        margin: 0 auto;
+        gap: 1.8rem;
+        grid-template-columns: 21rem auto 23rem;
+    }
+}
+
 aside {
     height: 100vh;
 }
@@ -370,6 +391,7 @@ main table tbody td {
 
 main table tbody tr:last-child td {
     border: none;
+    padding-right: 5px;
 }
 
 main .recent-orders a {
@@ -592,6 +614,7 @@ main .recent-orders a {
 
 }
 
+
 @media screen and (max-width: 768px) {
     .container {
         width: 100%;
@@ -690,7 +713,9 @@ main .recent-orders a {
     }
 
     .right-section .profile .info {
-        display: none;
+        /* display: none; */
+        margin-right: 65px;
+        margin-top: 5px
     }
 
     .right-section .nav button {

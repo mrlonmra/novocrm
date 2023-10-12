@@ -6,7 +6,6 @@
     @enderror
 
     @if (auth()->check())
-        <!-- Main Content -->
         <main>
             <h1>Estatística</h1>
             <!-- Analyses -->
@@ -114,11 +113,10 @@
                 <div class="profile">
                     <div class="info">
                         <p>
-                            Olá, <b>{{ auth()->user()->name }}</b>
+                            Hey, <b>{{ auth()->user()->name }}</b>
                         </p></b>
                         </p>
-                        <small class="text-muted">Deus abençoe seu dia
-                        </small>
+                        <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
                         <img src="{{ asset('images/profile-1.jpg') }}">
@@ -173,14 +171,22 @@
         <script src="{{ asset('js/agenda.js') }}"></script>
         <script src="{{ asset('js/home.js') }}"></script>
     @else
-        <div class="centered">
-            <div class="right-section">
-                <div class="user-profile">
-                    <div class="logo">
-                        <img src="{{ asset('images/logo.png') }}">
-                        <h2>Sua Agenda</h2>
-                        <a href="{{ route('login.index') }}">Login</a>
-                    </div>
+        <div class="right-section">
+            <div class="user-profile">
+                <div class="logo">
+                    <h2>Sua Agenda</h2>
+                    <form action="{{ route('login.store') }}" method="POST">
+                        @csrf
+                        <input type="text" name="email" value="katyane@email.com">
+                        @error('email')
+                            <span>{{ $message }}</span>
+                        @enderror
+                        <input type="password" name="password" value="1">
+                        @error('password')
+                            <span>{{ $message }}</span>
+                        @enderror
+                        <button type="submit">Login</button>
+                    </form>
                 </div>
             </div>
         </div>
