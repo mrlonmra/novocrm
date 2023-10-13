@@ -7,9 +7,8 @@
 
     @if (auth()->check())
         <main>
-            <h1>Usuários</h1>
             <div class="new-users">
-                <h2>Cadastrar Funcionários</h2>
+                <h2>{{-- aqui apresenta o titulo --}}</h2>
                 <div class="funcionarios-list">
                     <div class="user">
                         {{-- aqui apresenta a lista de funcionarios --}}

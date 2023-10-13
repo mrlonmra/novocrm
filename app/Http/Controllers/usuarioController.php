@@ -28,6 +28,7 @@ class usuarioController extends Controller
     {
         $validatedData = $requisicao->validate([
             'name' => 'required|string',
+            'id_tipo_usuario' => 'required|string',
             'email' => 'required|email',
             'password' => 'required',
         ]);

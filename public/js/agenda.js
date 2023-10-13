@@ -256,7 +256,7 @@ function popularFuncionarios(data) {
 
     // Update the title with the total number of users
     const tituloFuncionarios = document.querySelector(".new-users h2");
-    tituloFuncionarios.textContent = `Funcionários (${quantidadeFuncionarios})`;
+    tituloFuncionarios.textContent = `Total de ${quantidadeFuncionarios} Funcionários`;
 
     funcionariosLimitados.forEach((funcionario) => {
         const userDiv = document.createElement("div");

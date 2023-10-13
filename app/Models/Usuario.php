@@ -13,5 +13,6 @@ class Usuario extends Model
         'nome',
         'email',
         'senha',
+        'id_tipo_usuario',
     ];
 }
