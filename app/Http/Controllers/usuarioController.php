@@ -6,16 +6,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Importe a classe Auth
 use App\Models\User;
 
-class UsuarioController extends Controller
+class usuarioController extends Controller
 {
     public const REDIRECT_URL = 'http://localhost/crm_studiokm/?page=listarusuarios';
 
     public function index()
     {
-        $users = User::all(); // Fetch users from the database
-    
-        return view('dashboard', ['users' => $users]); // Pass the users data to the view
+        return response()->json(User::all(), 200, [], JSON_PRETTY_PRINT);
     }
+
+    public function funcionarios($user_id)
+    {
+        // Busque os funcionários associados ao usuário
+        $funcionarios = user::where('id_patrao', $user_id)->get();
+
+        return response()->json($funcionarios);
+    }
+
 
     public function gravarUsuario(Request $requisicao)
     {

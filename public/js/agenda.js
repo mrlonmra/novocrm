@@ -3,7 +3,7 @@ const Agenda = [];
 
 // Fetch and populate agenda data from the API
 function fetchAndPopulateAgenda() {
-    fetch("https://api.studiokatyanemendes.com.br/api/agenda")
+    fetch("/api/agenda")
         .then((response) => response.json())
         .then((data) => {
             // Sort the data by start date in descending order (most recent first)
@@ -41,13 +41,17 @@ function fetchAndPopulateAgenda() {
 // Function to format a date from yyyy/mm/dd to dd/mm/yyyy
 function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+    };
     return new Intl.DateTimeFormat("pt-BR", options).format(date);
 }
 
 // Populate the agenda UI with data from the Agenda array
 function populateAgendaUI() {
-    const agendaTableBody = document.querySelector("table tbody");
+    const agendaTableBody = document.querySelector("#agendaTable tbody");
 
     // Clear existing table rows
     agendaTableBody.innerHTML = "";
@@ -71,6 +75,10 @@ function populateAgendaUI() {
         tr.innerHTML = trContent;
         agendaTableBody.appendChild(tr);
     });
+}
+
+function populateFuncionarios() {
+    
 }
 
 // Fetch and populate upcoming appointments
@@ -146,7 +154,7 @@ function popularProximosAgendamentos(data) {
 
 // Function to fetch data from the API and calculate the sum of "valor" for appointments with "concluido" status
 function fetchAndCalculatetotalVendas() {
-    fetch("https://api.studiokatyanemendes.com.br/api/agenda")
+    fetch("/api/agenda")
         .then((response) => response.json())
         .then((data) => {
             const totalSales = data.reduce(
@@ -178,7 +186,7 @@ function fetchAndCalculatetotalVendas() {
 }
 
 function contarAgendamentosConcluidos() {
-    fetch("https://api.studiokatyanemendes.com.br/api/agenda")
+    fetch("/api/agenda")
         .then((response) => response.json())
         .then((data) => {
             // Filtrar agendamentos com status "Concluido"
@@ -201,7 +209,7 @@ function contarAgendamentosConcluidos() {
 
 // Função para calcular a soma das horas de atendimento em agendamentos concluídos
 function calcularHorasDeAtendimento() {
-    fetch("https://api.studiokatyanemendes.com.br/api/agenda")
+    fetch("/api/agenda")
         .then((response) => response.json())
         .then((data) => {
             // Filtrar agendamentos com status "Concluído"
@@ -231,13 +239,110 @@ function calcularHorasDeAtendimento() {
             console.error("Erro ao buscar dados da API:", error);
         });
 }
-document.addEventListener("DOMContentLoaded", function () {
-    // Chame a função para calcular as horas de atendimento e atualizar o elemento <h1>
-    calcularHorasDeAtendimento();
-    // Chamar a função para contar agendamentos concluídos quando a página carregar
-    contarAgendamentosConcluidos();
-    // Call the function to fetch and calculate total sales when the page loads
-    fetchAndCalculatetotalVendas();
-    // Fetch and populate agenda data when the page loads
-    fetchAndPopulateAgenda();
+
+// Function to fetch and populate the list of users
+function popularFuncionarios(data) {
+    const funcionariosList = document.querySelector(".funcionarios-list");
+    funcionariosList.innerHTML = "";
+
+    // Sort users or employees data as needed
+    data.sort((a, b) => a.id - b.id); // Example sorting by user ID
+
+    // Show only a limited number of users, e.g., the first 3
+    const funcionariosLimitados = data.slice(0, 3);
+
+    // Display the total number of users
+    const quantidadeFuncionarios = data.length;
+
+    // Update the title with the total number of users
+    const tituloFuncionarios = document.querySelector(".new-users h2");
+    tituloFuncionarios.textContent = `Funcionários (${quantidadeFuncionarios})`;
+
+    funcionariosLimitados.forEach((funcionario) => {
+        const userDiv = document.createElement("div");
+        userDiv.classList.add("user");
+
+        // You can customize this part to display user information
+        userDiv.innerHTML = `
+        <img src="https://cdn3.iconfinder.com/data/icons/avatars-business-human1/180/woman2-512.png">
+            <h2>${funcionario.name}</h2>
+            <p>Email: ${funcionario.email}</p>
+            <!-- Add more user information here -->
+        `;
+
+        funcionariosList.appendChild(userDiv);
+    });
+
+    // Add the "Novo Agendamento" button as the fourth item
+    const novoFuncionarioDiv = document.createElement("div");
+    novoFuncionarioDiv.classList.add("user");
+    novoFuncionarioDiv.innerHTML = `
+        <img src="/images/plus.png">
+        <h2>Mais</h2>
+        <p>Novo Funcionario</p>
+    `;
+    funcionariosList.appendChild(novoFuncionarioDiv);
+
+    // Clear existing table rows
+    const funcionarioTableBody = document.querySelector("#funcionariosTable tbody");
+    funcionarioTableBody.innerHTML = "";
+
+    funcionariosLimitados.forEach((item) => {
+        const tr = document.createElement("tr");
+        const trContent = `
+            <td>${item.name}</td>
+            <td>${item.email}</td>
+            <td>${item.id_patrao}</td>
+            <td class="${
+                item.status === "Desativado"
+                    ? "danger"
+                   : "success"
+            }">${item.status}</td>
+            <td class="primary">Editar</td>
+        `;
+        tr.innerHTML = trContent;
+        funcionarioTableBody.appendChild(tr);
+    });
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Fazer uma requisição para obter o ID do usuário logado
+    fetch('/user-id1841651')
+        .then((response) => response.json())
+        .then((data) => {
+            const userId = data.user_id;
+
+            // Verificar se o ID do usuário é válido (não é nulo)
+            if (userId !== null) {
+                // Usar o ID do usuário no seu próximo fetch
+                fetch(`/api/usuarios/${userId}/funcionarios`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        popularFuncionarios(data);
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching user data:", error);
+                    });
+
+            
+                // Chame a função para calcular as horas de atendimento e atualizar o elemento <h1>
+                calcularHorasDeAtendimento();
+
+                // Chamar a função para contar agendamentos concluídos quando a página carregar
+                contarAgendamentosConcluidos();
+
+                // Call the function to fetch and calculate total sales when the page loads
+                fetchAndCalculatetotalVendas();
+
+                // Fetch and populate agenda data when the page loads
+                fetchAndPopulateAgenda();
+            } else {
+                console.log("Usuário não está autenticado ou ID de usuário inválido.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching user ID:", error);
+        });
 });
