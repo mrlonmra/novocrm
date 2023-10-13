@@ -1,31 +1,10 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Tempo de geração: 13/10/2023 às 11:56
--- Versão do servidor: 10.4.28-MariaDB
--- Versão do PHP: 8.1.17
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "-03:00";
 
+CREATE DATABASE studiokm;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Banco de dados: `studiokm`
---
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `agendas`
---
+USE studiokm;
 
 CREATE TABLE `agendas` (
   `id` bigint(20) UNSIGNED NOT NULL,
@@ -42,9 +21,6 @@ CREATE TABLE `agendas` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Despejando dados para a tabela `agendas`
---
 
 INSERT INTO `agendas` (`id`, `nomeCliente`, `cliente_id`, `procedimento`, `valor`, `description`, `hours`, `start`, `end`, `status`, `created_at`, `updated_at`) VALUES
 (29, 'Pamela Bozza', '10', 'Cilios Volume Egípcio', 120.00, 'Primeiro agendamento!', 120, '2023-09-04 08:00:00', '2023-09-04 10:00:00', 'Concluido', '2023-09-04 15:56:51', '2023-09-04 15:56:51'),
@@ -88,11 +64,6 @@ INSERT INTO `agendas` (`id`, `nomeCliente`, `cliente_id`, `procedimento`, `valor
 (107, 'Carol Tininha', '16', 'Retoque Shadow', 150.00, 'R$100', 78, '2023-10-14 14:00:00', '2023-10-14 15:18:00', NULL, '2023-10-11 17:08:25', '2023-10-11 17:08:25'),
 (108, 'Cleide', '59', 'Manutenção Mega Brasileiro', 100.00, NULL, 120, '2023-10-14 16:30:00', '2023-10-14 18:30:00', NULL, '2023-10-11 17:09:17', '2023-10-11 17:09:17');
 
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `clientes`
---
 
 CREATE TABLE `clientes` (
   `id` bigint(20) UNSIGNED NOT NULL,
@@ -104,10 +75,6 @@ CREATE TABLE `clientes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Despejando dados para a tabela `clientes`
---
 
 INSERT INTO `clientes` (`id`, `nome`, `telefone`, `email`, `data_nasc`, `bairro`, `created_at`, `updated_at`) VALUES
 (10, 'Pamela Bozza', '(62) 98216-6151', 'pegar@email.com.br2', '2023-09-04', 'Pegar Bairro', '2023-09-04 15:55:38', '2023-09-04 15:55:38'),
@@ -146,11 +113,6 @@ INSERT INTO `clientes` (`id`, `nome`, `telefone`, `email`, `data_nasc`, `bairro`
 (72, 'Thaís Marques', '62 98525-3065', NULL, NULL, NULL, '2023-10-06 21:41:29', '2023-10-06 21:41:29'),
 (73, 'Katiuscia Moreira', '62 981491248', NULL, NULL, NULL, '2023-10-07 15:49:27', '2023-10-07 15:49:27');
 
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `migrations`
---
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -158,21 +120,12 @@ CREATE TABLE `migrations` (
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Despejando dados para a tabela `migrations`
---
-
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (6, '2023_08_22_144152_create_users_table', 1),
 (7, '2023_09_16_225250_create_tipos_de_usuarios_table', 1),
 (8, '2023_09_16_225515_create_usuario_tipos_table', 1);
 
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `procedimentos`
---
 
 CREATE TABLE `procedimentos` (
   `id` bigint(20) UNSIGNED NOT NULL,
@@ -184,9 +137,6 @@ CREATE TABLE `procedimentos` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `procedimentos`
---
 
 INSERT INTO `procedimentos` (`id`, `procedimento`, `valor`, `categoria`, `duration`, `created_at`, `updated_at`) VALUES
 (10, 'Buço', 10.00, 'Depilacao', '10', '2023-09-04 14:56:32', '2023-09-29 18:39:55'),
@@ -228,11 +178,6 @@ INSERT INTO `procedimentos` (`id`, `procedimento`, `valor`, `categoria`, `durati
 (49, 'Cilios Volume 5D', 150.00, 'Cilios', '120', '2023-09-04 15:29:19', '2023-09-04 15:29:19'),
 (50, 'Cilios Volume Egípcio', 120.00, 'Cilios', '120', '2023-09-04 15:29:52', '2023-09-04 15:29:52');
 
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tipos_de_usuarios`
---
 
 CREATE TABLE `tipos_de_usuarios` (
   `id` bigint(20) UNSIGNED NOT NULL,
@@ -241,19 +186,11 @@ CREATE TABLE `tipos_de_usuarios` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Despejando dados para a tabela `tipos_de_usuarios`
---
 
 INSERT INTO `tipos_de_usuarios` (`id`, `tipo`, `created_at`, `updated_at`) VALUES
 (1, 'administrador', NULL, NULL),
 (2, 'funcionario', NULL, NULL);
 
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `users`
---
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
@@ -268,9 +205,6 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Despejando dados para a tabela `users`
---
 
 INSERT INTO `users` (`id`, `id_tipo_usuario`, `id_patrao`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 1, NULL, 'Marlon gomes de Moura', 'mrlon.mra@gmail.com', NULL, '$2y$10$SL0mE/IqmoE2es1aalsBs.TTfel73lH84MBBIplyLbM5UH4.gLuJG', NULL, '2023-10-13 04:51:28', '2023-10-13 04:51:28'),
@@ -279,11 +213,6 @@ INSERT INTO `users` (`id`, `id_tipo_usuario`, `id_patrao`, `name`, `email`, `ema
 (4, 1, NULL, 'Jose', '1@gmail.com', NULL, '$2y$10$SL0mE/IqmoE2es1aalsBs.TTfel73lH84MBBIplyLbM5UH4.gLuJG', NULL, '2023-10-13 04:51:28', '2023-10-13 04:51:28'),
 (5, 2, 4, 'Ricardo3', 'ricardo3@ileva.com', NULL, '1', NULL, '2023-10-13 01:52:41', '2023-10-13 01:52:41');
 
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `usuario_tipos`
---
 
 CREATE TABLE `usuario_tipos` (
   `id` bigint(20) UNSIGNED NOT NULL,
@@ -293,121 +222,57 @@ CREATE TABLE `usuario_tipos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Despejando dados para a tabela `usuario_tipos`
---
 
 INSERT INTO `usuario_tipos` (`id`, `id_user`, `id_tipo`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, '2023-10-13 01:51:55', '2023-10-13 01:51:55');
 
---
--- Índices para tabelas despejadas
---
-
---
--- Índices de tabela `agendas`
---
 ALTER TABLE `agendas`
   ADD PRIMARY KEY (`id`);
 
---
--- Índices de tabela `clientes`
---
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `clientes_email_unique` (`email`);
 
---
--- Índices de tabela `migrations`
---
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
---
--- Índices de tabela `procedimentos`
---
 ALTER TABLE `procedimentos`
   ADD PRIMARY KEY (`id`);
 
---
--- Índices de tabela `tipos_de_usuarios`
---
 ALTER TABLE `tipos_de_usuarios`
   ADD PRIMARY KEY (`id`);
 
---
--- Índices de tabela `users`
---
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
---
--- Índices de tabela `usuario_tipos`
---
 ALTER TABLE `usuario_tipos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `usuario_tipos_id_user_foreign` (`id_user`),
   ADD KEY `usuario_tipos_id_tipo_foreign` (`id_tipo`);
 
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `agendas`
---
 ALTER TABLE `agendas`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
---
--- AUTO_INCREMENT de tabela `clientes`
---
 ALTER TABLE `clientes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
---
--- AUTO_INCREMENT de tabela `migrations`
---
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
---
--- AUTO_INCREMENT de tabela `procedimentos`
---
 ALTER TABLE `procedimentos`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
---
--- AUTO_INCREMENT de tabela `tipos_de_usuarios`
---
 ALTER TABLE `tipos_de_usuarios`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT de tabela `users`
---
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
---
--- AUTO_INCREMENT de tabela `usuario_tipos`
---
 ALTER TABLE `usuario_tipos`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- Restrições para tabelas despejadas
---
-
---
--- Restrições para tabelas `usuario_tipos`
---
 ALTER TABLE `usuario_tipos`
   ADD CONSTRAINT `usuario_tipos_id_tipo_foreign` FOREIGN KEY (`id_tipo`) REFERENCES `tipos_de_usuarios` (`id`),
   ADD CONSTRAINT `usuario_tipos_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

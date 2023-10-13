@@ -15,7 +15,7 @@ class usuarioController extends Controller
         return response()->json(User::all(), 200, [], JSON_PRETTY_PRINT);
     }
 
-    public function funcionarios($user_id)
+    public function pegarFuncionarioID($user_id)
     {
         // Busque os funcionários associados ao usuário
         $funcionarios = user::where('id_patrao', $user_id)->get();

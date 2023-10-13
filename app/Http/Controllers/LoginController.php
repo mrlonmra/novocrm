@@ -29,13 +29,13 @@ class LoginController extends Controller
 
         $autenticado = Auth::attempt($data);
 
-        var_dump($autenticado);
+        // var_dump($autenticado);
 
         if (!$autenticado) {
             return redirect()->route('login.index')->withErrors(['error' => 'E-mail ou Senha Invalidos']);
         }
 
-        return redirect()->route('login.index')->with('success', 'Logado com sucesso');
+        return redirect()->route('home')->with('success', 'Logado com sucesso');
 
 
     }

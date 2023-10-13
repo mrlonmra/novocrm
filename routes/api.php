@@ -19,7 +19,7 @@ Route::get('/usuarios', [usuarioController::class, 'index']);
 Route::post('/usuarios', [usuarioController::class, 'gravarUsuario']);
 Route::get('/usuarios/{id}', [usuarioController::class, 'show']);
 Route::post('/usuarios/editarUsuario', [usuarioController::class, 'editarUsuario']);
-Route::get('/usuarios/{user_id}/funcionarios', [usuarioController::class, 'funcionarios']);
+Route::get('/usuarios/{user_id}/funcionarios', [usuarioController::class, 'pegarFuncionarioID']);
 
 
 // Rotas de Agenda
